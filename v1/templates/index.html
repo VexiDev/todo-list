@@ -83,11 +83,30 @@
     <script>
         function showDescription(event, description) {
             var popup = document.getElementById('description-popup');
+            var popupRect = popup.getBoundingClientRect();  // Get the size of the popup
+            var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+            var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            
+            // Calculate the position of the popup
+            var left = event.clientX;
+            var top = event.clientY;
+            
+            // If the popup goes out of the right edge of the viewport, adjust the position
+            if (event.clientX + popupRect.width > viewportWidth) {
+                left = event.clientX - popupRect.width;
+            }
+            
+            // If the popup goes out of the bottom edge of the viewport, adjust the position
+            if (event.clientY + popupRect.height > viewportHeight) {
+                top = event.clientY - popupRect.height;
+            }
+            
             popup.style.display = 'block';
-            popup.style.left = event.clientX + 'px';
-            popup.style.top = event.clientY + 'px';
+            popup.style.left = left + 'px';
+            popup.style.top = top + 'px';
             document.getElementById('description-text').textContent = description;
         }
+
         window.onclick = function(event) {
             if (!event.target.matches('.task')) {
                 var popup = document.getElementById('description-popup');

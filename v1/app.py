@@ -5,6 +5,23 @@ app = Flask(__name__)
 
 status_list = ['Concept', 'Planned', 'Ongoing','Core Features Implemented', 'Completed', 'Paused']
 
+def add_task(name, description, status):
+    # Load existing tasks
+    with open('tasks.json', 'r') as file:
+        tasks = json.load(file)
+
+    # Add new task
+    tasks.append({
+        'name': name,
+        'description': description,
+        'status': status
+    })
+
+    # Save tasks back to the file
+    with open('tasks.json', 'w') as file:
+        json.dump(tasks, file)
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     try:
